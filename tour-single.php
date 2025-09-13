@@ -2,6 +2,8 @@
 	<?php
 	session_start();
 	include('inc/config.php'); // assumes $dbh (PDO) is defined
+    //new veriable
+    $next = isset($_SERVER['REQUEST_URI']) ? urlencode($_SERVER['REQUEST_URI']) : ''; // ADDED: ensure $next exists for login redirect
 
 	if (!isset($_GET['PackageId'])) {
 		echo "No tour selected.";
@@ -160,9 +162,55 @@ if (isset($_POST['addreview'])) {
 							
                                <?php if (!empty($safetyTips)): ?>
 								
-								<?php foreach ($safetyTips as $tip): ?>
+								 <!-- <?php foreach ($safetyTips as $tip): ?>
 									<p class="journey-day-title"><?php echo htmlspecialchars($tip['safetydetails']); ?></p>
-								<?php endforeach; ?>
+								<?php endforeach; ?> -->
+
+
+<!-- Formating Text                         -->
+
+
+<?php if (!empty($safetyTips)): ?>
+
+    <?php
+    // ADDED: helper to render line breaks + allow a tiny, safe HTML subset for headings/lists
+    if (!function_exists('render_safe_safety')) {
+        function render_safe_safety($raw) {
+            // Allow only these tags (no attributes): headings, emphasis, lists, paragraphs, line breaks
+            $allowed = '<h2><h3><h4><strong><em><b><ul><ol><li><p><br>';
+
+            // If admin included allowed HTML tags, keep only those; otherwise convert newlines to <br>
+            if (preg_match('/<\s*(h2|h3|h4|ul|ol|li|p|br|strong|em|b)\b/i', $raw)) {
+                return strip_tags($raw, $allowed); // ADDED: strip everything except allowed tags
+            }
+            return nl2br(htmlspecialchars($raw, ENT_QUOTES, 'UTF-8')); // ADDED: plain text -> <br> safely
+        }
+    }
+    ?>
+
+    <?php foreach ($safetyTips as $tip): ?>
+        <div class="journey-day-title">
+            <?php echo render_safe_safety($tip['safetydetails'] ?? ''); // CHANGED: use helper ?>
+        </div>
+    <?php endforeach; ?>
+
+<?php else: ?>
+    <p>No safety tips available for this tour.</p>
+<?php endif; ?>
+
+<!-- Formating End -->
+
+
+
+
+
+
+
+
+
+
+
+
 							<?php else: ?>
 								<p>No safety tips available for this tour.</p>
 							<?php endif; ?>
