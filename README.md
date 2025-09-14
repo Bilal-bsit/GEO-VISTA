@@ -46,7 +46,7 @@ BASE_URL=http://localhost/geovista/
 http://localhost/geovista
 
 ## Admin 
-Username: admin
+Username: admin 
 Password: admin1234
 Email: admin@gmail.com (For Forgotton Password)
 Mobile number: 1234567899 (For Forgotton Password)
