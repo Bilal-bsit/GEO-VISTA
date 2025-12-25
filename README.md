@@ -1,4 +1,4 @@
-## GeoVista (HTML,CSS, JavaScript, JavaQuery, PHP, MySQL, Bootstrap)
+## GeoVista (HTML,CSS, JavaScript, JQuery, PHP, MySQL, Bootstrap)
 
 A simple tours site for Pakistan’s northern areas (tours, maps, safety tips, reviews, Inquiries, bookings).
 
